@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Saved Schemes</title>
+</head>
+<body>
+
+<h2>Saved Schemes</h2>
+<div id="savedList"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyADvcSURAT597F0IBqKydNZWmWSp1wumr8",
+    authDomain: "smartgovhub.firebaseapp.com",
+    projectId: "smartgovhub",
+    storageBucket: "smartgovhub.appspot.com",
+    messagingSenderId: "272299843116",
+    appId: "1:272299843116:web:331d652a7e0374d5707b89"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      document.getElementById("savedList").innerHTML = "Please login first";
+      return;
+    }
+
+    const q = query(
+      collection(db, "savedSchemes"),
+      where("userId", "==", user.uid)
+    );
+
+    const snapshot = await getDocs(q);
+
+    let container = document.getElementById("savedList");
+    container.innerHTML = "";
+
+    snapshot.forEach(doc => {
+      let data = doc.data();
+
+      let div = document.createElement("div");
+      div.innerHTML = `<p>${data.name}</p>`;
+      container.appendChild(div);
+    });
+  });
+</script>
+
+</body>
+</html>

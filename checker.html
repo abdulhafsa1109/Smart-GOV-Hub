@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Scheme Checker</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="style.css">
+<style>
+    html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+}
+</style>
+</head>
+
+<!-- Removed p-5 -->
+<body>
+
+<!--  HEADER -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="logo.jpeg" width="40" height="40" class="me-2 rounded-circle">
+      <span class="fs-5">SmartGovHub</span>
+    </a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="container mt-4">
+
+  <h2>Government Scheme Filter</h2>
+
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+      <label>Gender</label>
+      <select id="genderFilter" class="form-select">
+        <option>All</option>
+        <option>Male</option>
+        <option>Female</option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label>Department</label>
+      <select id="categoryFilter" class="form-select">
+        <option>Agriculture & Rural</option>
+        <option>Education & Learning</option>
+        <option>Health & Wellness</option>
+        <option>Skills & Employment</option>
+        <option>Housing & Shelter</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <button id="applyFilterBtn" class="btn btn-primary mt-4 w-100">
+        Apply Filter
+      </button>
+    </div>
+
+  </div>
+
+  <div id="schemeResults"></div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script type="module" src="./app.js"></script>
+<script type="module" src="./checker.js"></script>
+
+<!-- FOOTER -->
+<footer class="bg-primary text-white text-center py-3 mt-5 shadow-sm">
+  <div class="container">
+    <small>© 2026 Smart Gov Hub</small>
+  </div>
+</footer>
+
+</body>
+</html>

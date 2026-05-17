@@ -1,0 +1,619 @@
+////index1.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Gov Hub</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+   /* ===== CHATBOT STYLES ===== */
+
+#chatbot-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #0d6efd;
+  color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 22px;
+  z-index: 9999;
+}
+
+#chatbot-window {
+  position: fixed;
+  bottom: 85px;
+  right: 20px;
+  width: 320px;
+  height: 400px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+#chatbot-header {
+  background: #0d6efd;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+#chatbot-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+#chatbot-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+#chatbot-input input {
+  flex: 1;
+  border: none;
+  padding: 8px;
+}
+
+#chatbot-input button {
+  border: none;
+  background: #ffc107;
+  padding: 8px 12px;
+}
+
+
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4 d-flex align-items-center" href="#">
+  <img src="logo.jpeg" alt="Smart Gov Hub Logo" width="60" height="60" class="me-2">
+  SmartGovHub
+</a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto me-3">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#categories">Categories</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#featured">Featured</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#how-it-works">How It Works</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#faqs">FAQs</a></li>
+      </ul>
+     <a href="login.html" class="btn btn-warning text-dark me-2">Login</a>
+     <a href="signup.html" class="btn btn-outline-warning">Sign Up</a>
+
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- Hero -->
+<!-- Search Section -->
+<section class="hero-section text-center text-white d-flex align-items-center">
+  <div class="container">
+    <h1 class="fw-bold display-4">Find Government Schemes Easily</h1>
+    <p class="lead mt-3">A single platform to explore, understand and apply for government schemes</p>
+
+    <form id="searchForm" class="search-box mt-4 d-flex justify-content-center flex-column flex-md-row gap-2">
+      <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Search schemes...">
+      <button type="submit" class="btn btn-warning btn-lg">Search</button>
+    </form>
+  </div>
+</section>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <select id="categoryFilter" class="form-select">
+      <option value="">All Categories</option>
+      <option value="Women Welfare">Women Welfare</option>
+      <option value="Farmer">Farmer</option>
+      <option value="Student">Student</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <select id="genderFilter" class="form-select">
+      <option value="">All Genders</option>
+      <option value="Female">Female</option>
+      <option value="Male">Male</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <button class="btn btn-warning w-100" id="applyFilters">
+      Apply Filters
+    </button>
+  </div>
+</div> 
+
+<!-- Search Results Section -->
+ <section id="searchResultsSection" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-center mb-5">Search Results</h2>
+    <div class="row g-4" id="searchResultsContainer">
+      <!-- Search results will appear here -->
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Categories -->
+<section id="categories">
+  <div class="container">
+    <h2 class="section-title">Browse by Category</h2>
+    <div class="row g-4">
+
+      <div class="col-md-3">
+        <div class="category-card">
+          <i class="fa-solid fa-tractor"></i>
+          <h5>Agriculture</h5>
+          <p>818 Schemes</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="category-card">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <h5>Education</h5>
+          <p>1078 Schemes</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="category-card">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <h5>Health</h5>
+          <p>274 Schemes</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="category-card">
+          <i class="fa-solid fa-briefcase"></i>
+          <h5>Employment</h5>
+          <p>368 Schemes</p>
+        </div>
+      </div>
+
+       <!-- Agriculture -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-tractor"></i>
+      <h5>Agriculture & Rural</h5>
+      <p>818 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <h5>Education & Learning</h5>
+      <p>1078 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Health -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-heart-pulse"></i>
+      <h5>Health & Wellness</h5>
+      <p>274 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Employment -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-briefcase"></i>
+      <h5>Skills & Employment</h5>
+      <p>368 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Women & Child -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-person-dress"></i>
+      <h5>Women & Child Welfare</h5>
+      <p>458 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Finance -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-money-bill-wave"></i>
+      <h5>Banking & Finance</h5>
+      <p>318 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Housing -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-house"></i>
+      <h5>Housing & Shelter</h5>
+      <p>128 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Business -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-chart-line"></i>
+      <h5>Business & Entrepreneurship</h5>
+      <p>705 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Social Welfare -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-hands-helping"></i>
+      <h5>Social Welfare</h5>
+      <p>1456 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Transport -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-road"></i>
+      <h5>Transport & Infrastructure</h5>
+      <p>86 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Science & IT -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-microchip"></i>
+      <h5>Science & IT</h5>
+      <p>100 Schemes</p>
+    </div>
+  </div>
+
+  <!-- Tourism -->
+  <div class="col-md-3">
+    <div class="category-card">
+      <i class="fa-solid fa-plane"></i>
+      <h5>Travel & Tourism</h5>
+      <p>91 Schemes</p>
+    </div>
+  </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Featured Schemes -->
+<section id="featured" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="section-title text-center mb-5">Featured Schemes</h2>
+
+    <div class="row g-4" id="featuredSchemesContainer">
+
+      <!-- Scheme Card 1 -->
+      <div class="col-md-4">
+        <div class="scheme-card p-4 shadow rounded text-center bg-white h-100">
+          <i class="fa-solid fa-tractor fa-2xl mb-3 text-primary"></i>
+          <h5 class="mb-2">PM-Kisan Scheme</h5>
+          <p>Financial support for farmers to enhance their income and livelihood.</p>
+          <a href="#" class="btn btn-warning btn-sm mt-2">Apply Now</a>
+        </div>
+      </div>
+
+      <!-- Scheme Card 2 -->
+      <div class="col-md-4">
+        <div class="scheme-card p-4 shadow rounded text-center bg-white h-100">
+          <i class="fa-solid fa-graduation-cap fa-2xl mb-3 text-primary"></i>
+          <h5 class="mb-2">Skill India Initiative</h5>
+          <p>Free skill development programs to empower youth for employment.</p>
+          <a href="#" class="btn btn-warning btn-sm mt-2">Apply Now</a>
+        </div>
+      </div>
+
+      <!-- Scheme Card 3 -->
+      <div class="col-md-4">
+        <div class="scheme-card p-4 shadow rounded text-center bg-white h-100">
+          <i class="fa-solid fa-heart-pulse fa-2xl mb-3 text-primary"></i>
+          <h5 class="mb-2">Ayushman Bharat</h5>
+          <p>Health coverage scheme for families, ensuring access to quality healthcare.</p>
+          <a href="#" class="btn btn-warning btn-sm mt-2">Apply Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- How It Works -->
+<section id="how-it-works" class="bg-light">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <div class="row g-4 text-center">
+
+      <div class="col-md-4">
+        <div class="info-card">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <h5>Search</h5>
+          <p>Find schemes matching your eligibility</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="info-card">
+          <i class="fa-solid fa-file-lines"></i>
+          <h5>Apply</h5>
+          <p>Redirected to official government portal</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="info-card">
+          <i class="fa-solid fa-bell"></i>
+          <h5>Get Benefits</h5>
+          <p>Receive updates and benefits</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQs -->
+<section id="faqs">
+  <div class="container">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+
+    <div class="accordion" id="faqAccordion">
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq1">
+        What is Smart Gov Hub?
+      </button>
+    </h2>
+    <div id="faq1" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        Smart Gov Hub is a centralized web platform that helps citizens easily discover and understand government schemes across different sectors.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">
+        How does Smart Gov Hub help users?
+      </button>
+    </h2>
+    <div id="faq2" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        It saves time by eliminating the need to search multiple government websites and provides scheme information in one place.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">
+        Can I apply for schemes directly on this website?
+      </button>
+    </h2>
+    <div id="faq3" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        No. Smart Gov Hub redirects users to the official government portals where applications are securely submitted.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">
+        Is Smart Gov Hub an official government website?
+      </button>
+    </h2>
+    <div id="faq4" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        No. It is an informational platform designed to guide users to official government websites.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq5">
+        Who can use Smart Gov Hub?
+      </button>
+    </h2>
+    <div id="faq5" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        Students, farmers, entrepreneurs, senior citizens, women, and all Indian citizens can benefit from this platform.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq6">
+        Is the information provided accurate?
+      </button>
+    </h2>
+    <div id="faq6" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        Yes. All scheme details are collected from official government sources and portals.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq7">
+        Do I need to create an account to use this platform?
+      </button>
+    </h2>
+    <div id="faq7" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        No account is required to browse schemes. Login may be introduced later for personalized features.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq8">
+        How often is the website updated?
+      </button>
+    </h2>
+    <div id="faq8" class="accordion-collapse collapse">
+      <div class="accordion-body">
+        The platform is periodically updated to include newly launched government schemes.
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer bg-primary text-white pt-5">
+  <div class="container">
+    <div class="row text-start">
+
+      <!-- About / Logo -->
+      <div class="col-md-3 mb-4 text-center text-md-start">
+        <img src="logo.jpeg" alt="Smart Gov Hub Logo" class="mb-2" style="width: 120px;">
+        <h5 class="footer-title">Smart Gov Hub</h5>
+        <p class="footer-text">
+          Smart Gov Hub is a digital platform that helps citizens easily discover government schemes, services, and benefits in one place. Explore, understand, and apply for schemes in one platform.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-md-3 mb-4">
+        <h5 class="footer-title">Quick Links</h5>
+        <ul class="footer-links list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Agreements</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Terms & Conditions</a></li>
+          <li><a href="#" class="text-white text-decoration-none">FAQs</a></li>
+          <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="col-md-3 mb-4">
+        <h5 class="footer-title">Contact Information</h5>
+        <p class="footer-text mb-2">
+          <i class="bi bi-envelope-fill me-2"></i>support@smartgovhub.in <br>
+          <i class="bi bi-telephone-fill me-2"></i>+91 98765 43210 <br>
+          <i class="bi bi-geo-alt-fill me-2"></i>123, SmartGov Hub Street, India
+        </p>
+        <div class="social-icons mt-2">
+          <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white me-2"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="text-white me-2"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-md-3 mb-4">
+        <h5 class="footer-title">Send Us a Message</h5>
+        <form id="footerContactForm">
+          <div class="mb-2">
+            <input type="text" class="form-control form-control-sm" placeholder="Your Name" required>
+          </div>
+          <div class="mb-2">
+            <input type="email" class="form-control form-control-sm" placeholder="Your Email" required>
+          </div>
+          <div class="mb-2">
+            <textarea class="form-control form-control-sm" rows="2" placeholder="Message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-warning btn-sm mt-1 w-100">Send</button>
+        </form>
+      </div>
+
+    </div>
+
+    <hr class="footer-line">
+
+    <div class="d-flex justify-content-between flex-column flex-md-row small mt-3">
+      <span>© 2026 Smart Gov Hub. All Rights Reserved.</span>
+      <span>Designed by Maahi</span>
+    </div>
+  </div>
+</footer>
+<!--chartbotttt-->
+<!-- Chatbot Floating Button -->
+<div id="chatbot-btn">
+  <i class="fa-solid fa-comments"></i>
+</div>
+
+<!-- Chatbot Window -->
+<div id="chatbot-window">
+  <div id="chatbot-header">
+    SmartGov Assistant
+    <span id="close-chatbot">&times;</span>
+  </div>
+
+  <div id="chatbot-messages"></div>
+
+  <div id="chatbot-input">
+    <input type="text" id="chatbotText" placeholder="Ask about government schemes..." />
+    <button onclick="sendChatbotMessage()">Send</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="app.js"></script>
+<!-- <script type="module" src="demo.js"></script> -->
+<script>
+const searchForm = document.getElementById("searchForm");
+const searchInput = document.getElementById("searchInput");
+
+if (searchForm) {
+  searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const query = searchInput.value.trim();
+    if (query !== "") {
+      // Redirect to scheme.html with search query
+      window.location.href = `scheme.html?search=${encodeURIComponent(query)}`;
+    }
+  });
+}
+</script>
+
+
+
+</body>
+</html>
